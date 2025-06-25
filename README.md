@@ -1,3 +1,12 @@
+# Pricing Exotic Options
+
+[![GitHub last commit](https://img.shields.io/github/last-commit/ajayworks/Pricing_Exotic_Options)](https://github.com/ajayworks/Pricing_Exotic_Options)
+[![GitHub repo size](https://img.shields.io/github/repo-size/ajayworks/Pricing_Exotic_Options)](https://github.com/ajayworks/Pricing_Exotic_Options)
+[![GitHub stars](https://img.shields.io/github/stars/ajayworks/Pricing_Exotic_Options?style=social)](https://github.com/ajayworks/Pricing_Exotic_Options/stargazers)
+
+[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Pricing Exotic Options using Stochastic Calculus, PDEs, and Monte Carlo Simulations
 
 This project presents a rigorous numerical study on pricing exotic options using mathematical finance tools, including stochastic calculus, finite difference methods for partial differential equations (PDEs), and Monte Carlo simulations. Emphasis is placed on the comparative accuracy, stability, and efficiency of different numerical methods applied to exotic derivatives.
