@@ -16,9 +16,9 @@ There are two types:
 
 ### Payoff (Average Price Asian Call):
 
-\[
+$
 C_{\text{Asian}} = \max\left( \frac{1}{n} \sum_{i=1}^n S_{t_i} - K, 0 \right)
-\]
+$
 
 Due to the averaging, Asian options exhibit **lower volatility** than vanilla options.
 
@@ -30,13 +30,13 @@ The arithmetic average of lognormal prices is **not lognormal** ⇒ no closed-fo
 
 Let:
 
-- \( A_t = \frac{1}{t} \int_0^t S_u \, du \) (running average)
+- $( A_t = \frac{1}{t} \int_0^t S_u \, du )$ (running average)
 
 Then the PDE becomes:
 
-\[
+$
 \frac{\partial V}{\partial t} + rS \frac{\partial V}{\partial S} + \frac{1}{2} \sigma^2 S^2 \frac{\partial^2 V}{\partial S^2} + \left( \frac{A - A_t}{t} \right) \frac{\partial V}{\partial A} = rV
-\]
+$
 
 ## Barrier Option Theory
 
@@ -53,9 +53,9 @@ Example: Down-and-Out Call → becomes worthless if asset falls below barrier \(
 These are critical in PDE formulations.
 
 - For Down-and-Out Call:
-  \[
+  $
   V(S = B, t) = 0 \quad \text{(absorbing barrier)}
-  \]
+  $
 - For Knock-In options:
   More complex — requires tracking two regimes (activated/inactivated).
 
@@ -65,17 +65,17 @@ These are solved using **finite difference methods** or **Monte Carlo with path 
 
 Asian option payoff depends on **integral over path**:
 
-\[
+$
 A_T = \frac{1}{T} \int_0^T S_t \, dt
-\]
+$
 
-This makes it a **functional** of the stochastic process \( S_t \).
+This makes it a **functional** of the stochastic process $( S_t )$.
 
 We can express the expectation:
 
-\[
+$
 C_{\text{Asian}} = e^{-rT} \mathbb{E} \left[ \max\left( A_T - K, 0 \right) \right]
-\]
+$
 
 ### 🔍 Challenges:
 - Arithmetic average of lognormal distribution has no closed-form.
@@ -87,11 +87,11 @@ C_{\text{Asian}} = e^{-rT} \mathbb{E} \left[ \max\left( A_T - K, 0 \right) \righ
 
 Sampling at discrete time steps introduces bias in estimating the integral:
 
-\[
+$
 \hat{A}_T = \frac{1}{n} \sum_{i=1}^n S_{t_i} \neq \frac{1}{T} \int_0^T S_t \, dt
-\]
+$
 
-This becomes negligible as \( n \to \infty \), but increases runtime.
+This becomes negligible as $( n \to \infty )$, but increases runtime.
 
 ---
 
