@@ -1,0 +1,59 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{black1973pricing}
+\citation{hull2018options}
+\citation{glasserman2004monte}
+\citation{shreve2004stochastic}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction and Literature Review}{3}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Methodology}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Stochastic Calculus and Black-Scholes PDE}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces BSM Call Option Price Surface as a function of Strike Price $K$ and Volatility $\sigma $}}{4}{figure.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Monte Carlo Simulation and Variance Reduction}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Finite Difference Methods (PDE)}{5}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Greek Estimation and Sensitivity Analysis}{5}{subsection.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Comparative Analysis Framework}{5}{subsection.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Experiments and Results}{6}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Experimental Setup}{6}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Convergence Behavior of Monte Carlo Simulations}{6}{subsection.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Convergence of Monte Carlo estimates with increasing number of simulations. Error decreases proportionally to $1/\sqrt  {N}$, as theoretically expected.}}{6}{figure.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Comparative Convergence: Binomial, PDE, and Monte Carlo}{7}{subsection.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Convergence of Binomial, Monte Carlo, and PDE methods for European call pricing. PDE achieves faster convergence with fewer grid steps; Binomial is consistent but slower; MC exhibits high variance at lower sample sizes.}}{7}{figure.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Convergence of PDE Solvers}{7}{subsection.3.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Convergence of the PDE method using Crank–Nicolson discretization. The results align well with theoretical second-order accuracy in time and space.}}{7}{figure.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Comparison of BSM, Monte Carlo, and PDE Pricing}{8}{subsubsection.3.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Comparison of vanilla option prices using BSM analytical formula, Monte Carlo simulation, and Crank-Nicolson PDE method. The prices align closely, validating cross-method consistency.}}{8}{figure.5}\protected@file@percent }
+\newlabel{fig:bsm_mc_cn_comparison}{{5}{8}{Comparison of vanilla option prices using BSM analytical formula, Monte Carlo simulation, and Crank-Nicolson PDE method. The prices align closely, validating cross-method consistency}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Exotic Option Pricing Comparison}{8}{subsection.3.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Comparison of up-and-out barrier option pricing using MC with and without variance reduction techniques. Accuracy improves with control and antithetic variates.}}{8}{figure.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}ADI Method for Asian Option Pricing}{9}{subsection.3.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Convergence of the ADI Crank–Nicolson scheme for pricing Asian options. Spatial and temporal errors are shown, indicating second-order convergence with respect to time step $\Delta t$ and grid spacing $\Delta x$.}}{9}{figure.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Runtime vs Accuracy Tradeoff}{9}{subsection.3.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Left: Runtime vs resolution (log-log scale) across solvers. Right: Tradeoff between runtime and absolute error vs BSM closed-form. PDE achieves high accuracy rapidly; MC is more computationally expensive; Binomial is slow but reliable.}}{9}{figure.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Discussion}{10}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}PDE vs. Monte Carlo Efficiency}{10}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Impact of Variance Reduction}{10}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Accuracy and Runtime Trade-offs}{10}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Greeks Estimation for Hedging}{10}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Convergence Behavior}{10}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Summary}{10}{subsection.4.6}\protected@file@percent }
+\bibstyle{plain}
+\bibstyle{ieeetr}
+\bibdata{references}
+\bibcite{black1973pricing}{1}
+\bibcite{glasserman2004monte}{2}
+\bibcite{hull2018options}{3}
+\bibcite{shreve2004stochastic}{4}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion and Future Work}{11}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix A: Math Derivations}{12}{appendix.A}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Black-Scholes-Merton (BSM) Formula Derivation}{12}{subsection.A.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Monte Carlo Estimator for Option Pricing}{12}{subsection.A.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Asian Option Payoff (Arithmetic Average)}{12}{subsection.A.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Barrier Option (Knock-Out Condition)}{12}{subsection.A.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}Crank-Nicolson Finite Difference Scheme}{13}{subsection.A.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Appendix B: Code Snippets}{14}{appendix.B}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Black-Scholes Formula Implementation}{14}{subsection.B.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Monte Carlo pricing for European Options}{14}{subsection.B.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Crank-Nicolson PDE Solver}{15}{subsection.B.3}\protected@file@percent }
+\gdef \@abspage@last{15}

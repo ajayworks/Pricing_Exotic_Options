@@ -1,98 +1,75 @@
+"""
+monte_carlo.py
+
+Monte Carlo pricing for European and Asian options, with confidence intervals.
+"""
+
 import numpy as np
 
 
-class MonteCarloPricer:
-    def __init__(
-        self,
-        S0,
-        K,
-        T,
-        r,
-        sigma,
-        n_paths=10000,
-        n_steps=100,
-        option_type="call",
-        seed=None,
-    ):
-        self.S0 = S0
-        self.K = K
-        self.T = T
-        self.r = r
-        self.sigma = sigma
-        self.n_paths = n_paths
-        self.n_steps = n_steps
-        self.option_type = option_type.lower()
-        self.dt = T / n_steps
-        self.seed = seed
-        if seed is not None:
-            np.random.seed(seed)
+def mc_european_price(S0, K, r, sigma, T, N_paths=100_000, N_steps=252, 
+                      is_call=True, seed=None):
+    """
+    Price a European call/put via Monte Carlo simulation of GBM.
 
-    def generate_paths(self):
-        """Simulate GBM paths"""
-        S = np.zeros((self.n_paths, self.n_steps + 1))
-        S[:, 0] = self.S0
-        for t in range(1, self.n_steps + 1):
-            Z = np.random.randn(self.n_paths)
-            S[:, t] = S[:, t - 1] * np.exp(
-                (self.r - 0.5 * self.sigma**2) * self.dt
-                + self.sigma * np.sqrt(self.dt) * Z
-            )
-        return S
+    Returns
+    -------
+    price : float
+        Discounted expectation E[e^{-rT} payoff].
+    ci_95 : float
+        Half-width of the 95% confidence interval.
+    """
+    if seed is not None:
+        np.random.seed(seed)
 
-    def price_european_option(self):
-        """Price European Call/Put using MC"""
-        S = self.generate_paths()
-        S_T = S[:, -1]
-        if self.option_type == "call":
-            payoff = np.maximum(S_T - self.K, 0)
-        elif self.option_type == "put":
-            payoff = np.maximum(self.K - S_T, 0)
-        else:
-            raise ValueError("Invalid option_type. Choose 'call' or 'put'.")
-        return np.exp(-self.r * self.T) * np.mean(payoff)
+    dt = T / N_steps
+    # simulate log returns
+    Z = np.random.randn(N_paths, N_steps)
+    increments = (r - 0.5*sigma**2)*dt + sigma*np.sqrt(dt)*Z
+    logS = np.cumsum(increments, axis=1)
+    ST = S0 * np.exp(logS[:,-1])
 
-    def price_asian_option(self):
-        """Price Arithmetic Asian Option using MC"""
-        S = self.generate_paths()
-        S_avg = S.mean(axis=1)
-        if self.option_type == "call":
-            payoff = np.maximum(S_avg - self.K, 0)
-        elif self.option_type == "put":
-            payoff = np.maximum(self.K - S_avg, 0)
-        else:
-            raise ValueError("Invalid option_type. Choose 'call' or 'put'.")
-        return np.exp(-self.r * self.T) * np.mean(payoff)
+    # payoff
+    if is_call:
+        payoff = np.maximum(ST - K, 0.0)
+    else:
+        payoff = np.maximum(K - ST, 0.0)
 
-    def price_with_confidence_interval(self):
-        """Returns option price and 95% confidence interval"""
-        S = self.generate_paths()
-        S_T = S[:, -1]
-        if self.option_type == "call":
-            payoff = np.maximum(S_T - self.K, 0)
-        elif self.option_type == "put":
-            payoff = np.maximum(self.K - S_T, 0)
-        else:
-            raise ValueError("Invalid option_type. Choose 'call' or 'put'.")
-
-        discounted = np.exp(-self.r * self.T) * payoff
-        price = np.mean(discounted)
-        stderr = np.std(discounted) / np.sqrt(self.n_paths)
-        ci_95 = 1.96 * stderr
-        return price, (price - ci_95, price + ci_95)
-
-    def simulate_payoffs(self):
-        S = self.generate_paths()
-        S_T = S[:, -1]
-
-        if self.option_type == "call":
-            payoff = np.maximum(S_T - self.K, 0)
-        elif self.option_type == "put":
-            payoff = np.maximum(self.K - S_T, 0)
-        else:
-            raise ValueError("Invalid option_type. Choose 'call' or 'put'.")
-
-        discounted = np.exp(-self.r * self.T) * payoff
-        return discounted
+    discounted = np.exp(-r*T) * payoff
+    price = discounted.mean()
+    stderr = discounted.std(ddof=1) / np.sqrt(N_paths)
+    ci_95 = 1.96 * stderr
+    return price, ci_95
 
 
-{"cells": [], "metadata": {}, "nbformat": 4, "nbformat_minor": 5}
+def mc_arithmetic_asian_price(S0, K, r, sigma, T, N_paths=100_000, N_steps=252, 
+                              is_call=True, seed=None):
+    """
+    Price an Arithmetic Asian call/put via Monte Carlo simulation (discrete averaging).
+    """
+    if seed is not None:
+        np.random.seed(seed)
+
+    dt = T / N_steps
+    Z = np.random.randn(N_paths, N_steps)
+    increments = (r - 0.5*sigma**2)*dt + sigma*np.sqrt(dt)*Z
+    logS   = np.cumsum(increments, axis=1)
+    S_paths = S0 * np.exp(logS)
+    S_avg   = S_paths.mean(axis=1)
+
+    if is_call:
+        payoff = np.maximum(S_avg - K, 0.0)
+    else:
+        payoff = np.maximum(K - S_avg, 0.0)
+
+    discounted = np.exp(-r*T) * payoff
+    price = discounted.mean()
+    stderr = discounted.std(ddof=1) / np.sqrt(N_paths)
+    ci_95 = 1.96 * stderr
+    return price, ci_95
+
+
+if __name__ == "__main__":
+    # Quick smoke tests
+    print("European call", mc_european_price(100, 100, 0.05, 0.2, 1, seed=42))
+    print("Asian call   ", mc_arithmetic_asian_price(100, 100, 0.05, 0.2, 1, seed=42))

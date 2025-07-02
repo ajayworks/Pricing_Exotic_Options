@@ -1,40 +1,79 @@
-# engines/binomial_tree.py
+"""
+binomial_tree.py
+
+Cox–Ross–Rubinstein (CRR) binomial‐tree pricing for European vanilla options.
+"""
 
 import numpy as np
 
 
-class BinomialVanillaPricer:
-    def __init__(self, S0, K, T, r, sigma, N=100, is_call=True):
-        self.S0 = S0
-        self.K = K
-        self.T = T
-        self.r = r
-        self.sigma = sigma
-        self.N = N
-        self.is_call = is_call
+def binomial_crr_price(
+    S0: float, K: float, r: float, sigma: float, T: float, N: int, is_call: bool = True
+) -> float:
+    """
+    Price a European vanilla call or put using the Cox–Ross–Rubinstein binomial tree.
 
-        self.dt = T / N
-        self.discount = np.exp(-r * self.dt)
-        self.u = np.exp(sigma * np.sqrt(self.dt))
-        self.d = 1 / self.u
-        self.p = (np.exp(r * self.dt) - self.d) / (self.u - self.d)
+    Parameters
+    ----------
+    S0 : float
+        Initial stock price.
+    K : float
+        Option strike price.
+    r : float
+        Risk-free interest rate (annual, continuously compounded).
+    sigma : float
+        Volatility of the underlying (annual).
+    T : float
+        Time to maturity (in years).
+    N : int
+        Number of time steps in the binomial tree.
+    is_call : bool, optional
+        If True (default), prices a call; if False, prices a put.
 
-    def price(self):
-        # Step 1: Set up asset prices at maturity
-        asset_prices = np.array(
-            [self.S0 * self.u**j * self.d ** (self.N - j) for j in range(self.N + 1)]
+    Returns
+    -------
+    float
+        The discounted option price at time zero.
+    """
+    # Step size
+    dt = T / N
+    # Up/down factors
+    u = np.exp(sigma * np.sqrt(dt))
+    d = 1 / u
+    # Risk-neutral probability
+    p = (np.exp(r * dt) - d) / (u - d)
+    # Discount factor per step
+    disc = np.exp(-r * dt)
+
+    # 1) Compute terminal asset prices S_T at all nodes
+    j = np.arange(N + 1)
+    ST = S0 * (u ** (N - j)) * (d**j)
+
+    # 2) Compute terminal payoffs
+    if is_call:
+        payoff = np.maximum(ST - K, 0.0)
+    else:
+        payoff = np.maximum(K - ST, 0.0)
+
+    # 3) Backward induction with overflow-suppression
+    price = payoff.copy()
+    for step in range(N, 0, -1):
+        with np.errstate(over="ignore"):
+            price = disc * (p * price[:step] + (1 - p) * price[1 : step + 1])
+        # sanitize infinities/nans
+        price = np.nan_to_num(price, posinf=0.0, neginf=0.0, nan=0.0)
+
+    return float(price[0])
+
+
+if __name__ == "__main__":
+    # Simple smoke test: compare small N vs known values
+    S0_test, K_test, r_test, vol_test, T_test = 100, 100, 0.05, 0.2, 1.0
+    for N_test in (10, 50, 100, 500):
+        c = binomial_crr_price(
+            S0_test, K_test, r_test, vol_test, T_test, N_test, is_call=True
         )
-
-        # Step 2: Calculate payoff at maturity
-        if self.is_call:
-            option_values = np.maximum(asset_prices - self.K, 0)
-        else:
-            option_values = np.maximum(self.K - asset_prices, 0)
-
-        # Step 3: Backward induction
-        for i in range(self.N - 1, -1, -1):
-            option_values = self.discount * (
-                self.p * option_values[1:] + (1 - self.p) * option_values[:-1]
-            )
-
-        return option_values[0]
+        p = binomial_crr_price(
+            S0_test, K_test, r_test, vol_test, T_test, N_test, is_call=False
+        )
+        print(f"N={N_test:3d}  Call={c:.4f}  Put={p:.4f}")
