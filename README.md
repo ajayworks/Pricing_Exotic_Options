@@ -14,7 +14,7 @@ This project presents a rigorous numerical study on pricing exotic options using
 ## 🔍 Objectives
 
 - Implement the Black-Scholes-Merton model for vanilla European options
-- Extend models to exotic payoffs: Asian, Barrier, and Lookback options
+- Extend models to exotic payoffs: Asian and Barrier
 - Apply stochastic calculus and Ito’s Lemma to derive pricing PDEs
 - Develop finite difference solvers (Explicit, Implicit, Crank-Nicolson)
 - Build Monte Carlo engines with variance reduction techniques
@@ -25,19 +25,37 @@ This project presents a rigorous numerical study on pricing exotic options using
 
 PricingExoticOptions/
 ├── notebooks/       ← Jupyter notebooks for development and experiments
-├── pricing/         ← Modular pricing libraries (Monte Carlo, PDE solvers, BSM)
+├── pricing/         ← Modular pricing libraries (Monte Carlo, PDE solvers, BSM, Binomial Tree)
 ├── report/          ← Formal write-up with equations, plots, and conclusions
-├── data/            ← Intermediate results, sample paths, market data
 ├── plots/           ← Saved figures for report and analysis
 └── README.md        ← Project overview and guide
 
 ## ⚙️ Technologies Used
 
 - **Python**: NumPy, SciPy, SymPy, Pandas
-- **Visualization**: Matplotlib, Seaborn, Plotly
+- **Visualization**: Matplotlib, Seaborn
 - **Jupyter Notebooks** for prototyping and experiments
 - **LaTeX** for final report with mathematical rigor
 - **Git** for version control
+
+## Quickstart
+
+1. **Install dependencies (conda recommended):**
+    ```bash
+    conda env create -f environment.yml
+    conda activate exotic-options
+    ```
+    _or, for pip:_
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2. **Run notebooks**  
+    Open the `notebooks/` directory and run any Jupyter notebook for interactive experiments and theory.
+
+3. **Core modules usage**
+    You can import classes/functions from the `pricing/` directory in your own scripts.
+
 
 ## 📈 Methodological Highlights
 
@@ -63,4 +81,4 @@ The models are tested against known analytic solutions where applicable and benc
 
 ---
 
-> This project is designed as a high-precision, modular, and mathematically grounded quantitative research tool for exotic derivatives pricing.
+> This project is designed as a high-precision, modular, and mathematically grounded quantitative research tool for exotic options pricing.
